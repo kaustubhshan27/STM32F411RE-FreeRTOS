@@ -1,0 +1,2 @@
+# STM32F411RE-FreeRTOS
+FreeRTOS exercises on STM32F411RE MCU
