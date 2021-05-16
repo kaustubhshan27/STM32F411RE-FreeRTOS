@@ -37,13 +37,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_macro  00017cea  00000000  00000000  00038588  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000d359  00000000  00000000  00050272  2**0
+ 17 .debug_line   0000d4be  00000000  00000000  00050272  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000945b8  00000000  00000000  0005d5cb  2**0
+ 18 .debug_str    0009461a  00000000  00000000  0005d730  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  000f1b83  2**0
+ 19 .comment      0000007b  00000000  00000000  000f1d4a  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004a84  00000000  00000000  000f1c00  2**2
+ 20 .debug_frame  00004a84  00000000  00000000  000f1dc8  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1876,35 +1876,20 @@ void USART2_IRQHandler(void)
  8000d90:	20012eb8 	.word	0x20012eb8
 
 08000d94 <_sbrk>:
-/**
- _sbrk
- Increase program data space. Malloc and related functions depend on this
-**/
-caddr_t _sbrk(int incr)
-{
  8000d94:	b580      	push	{r7, lr}
  8000d96:	b084      	sub	sp, #16
  8000d98:	af00      	add	r7, sp, #0
  8000d9a:	6078      	str	r0, [r7, #4]
-	extern char end asm("end");
-	static char *heap_end;
-	char *prev_heap_end;
-
-	if (heap_end == 0)
  8000d9c:	4b11      	ldr	r3, [pc, #68]	; (8000de4 <_sbrk+0x50>)
  8000d9e:	681b      	ldr	r3, [r3, #0]
  8000da0:	2b00      	cmp	r3, #0
  8000da2:	d102      	bne.n	8000daa <_sbrk+0x16>
-		heap_end = &end;
  8000da4:	4b0f      	ldr	r3, [pc, #60]	; (8000de4 <_sbrk+0x50>)
  8000da6:	4a10      	ldr	r2, [pc, #64]	; (8000de8 <_sbrk+0x54>)
  8000da8:	601a      	str	r2, [r3, #0]
-
-	prev_heap_end = heap_end;
  8000daa:	4b0e      	ldr	r3, [pc, #56]	; (8000de4 <_sbrk+0x50>)
  8000dac:	681b      	ldr	r3, [r3, #0]
  8000dae:	60fb      	str	r3, [r7, #12]
-	if (heap_end + incr > stack_ptr)
  8000db0:	4b0c      	ldr	r3, [pc, #48]	; (8000de4 <_sbrk+0x50>)
  8000db2:	681a      	ldr	r2, [r3, #0]
  8000db4:	687b      	ldr	r3, [r7, #4]
@@ -1912,28 +1897,19 @@ caddr_t _sbrk(int incr)
  8000db8:	466a      	mov	r2, sp
  8000dba:	4293      	cmp	r3, r2
  8000dbc:	d907      	bls.n	8000dce <_sbrk+0x3a>
-	{
-		errno = ENOMEM;
  8000dbe:	f004 fd45 	bl	800584c <__errno>
  8000dc2:	4602      	mov	r2, r0
  8000dc4:	230c      	movs	r3, #12
  8000dc6:	6013      	str	r3, [r2, #0]
-		return (caddr_t) -1;
  8000dc8:	f04f 33ff 	mov.w	r3, #4294967295	; 0xffffffff
  8000dcc:	e006      	b.n	8000ddc <_sbrk+0x48>
-	}
-
-	heap_end += incr;
  8000dce:	4b05      	ldr	r3, [pc, #20]	; (8000de4 <_sbrk+0x50>)
  8000dd0:	681a      	ldr	r2, [r3, #0]
  8000dd2:	687b      	ldr	r3, [r7, #4]
  8000dd4:	4413      	add	r3, r2
  8000dd6:	4a03      	ldr	r2, [pc, #12]	; (8000de4 <_sbrk+0x50>)
  8000dd8:	6013      	str	r3, [r2, #0]
-
-	return (caddr_t) prev_heap_end;
  8000dda:	68fb      	ldr	r3, [r7, #12]
-}
  8000ddc:	4618      	mov	r0, r3
  8000dde:	3710      	adds	r7, #16
  8000de0:	46bd      	mov	sp, r7
@@ -1977,99 +1953,45 @@ void SystemInit(void)
  8000e14:	e000ed00 	.word	0xe000ed00
 
 08000e18 <Reset_Handler>:
-
-    .section  .text.Reset_Handler
-  .weak  Reset_Handler
-  .type  Reset_Handler, %function
-Reset_Handler:  
-  ldr   sp, =_estack    		 /* set stack pointer */
  8000e18:	f8df d034 	ldr.w	sp, [pc, #52]	; 8000e50 <LoopFillZerobss+0x14>
-
-/* Copy the data segment initializers from flash to SRAM */  
-  movs  r1, #0
  8000e1c:	2100      	movs	r1, #0
-  b  LoopCopyDataInit
  8000e1e:	e003      	b.n	8000e28 <LoopCopyDataInit>
 
 08000e20 <CopyDataInit>:
-
-CopyDataInit:
-  ldr  r3, =_sidata
  8000e20:	4b0c      	ldr	r3, [pc, #48]	; (8000e54 <LoopFillZerobss+0x18>)
-  ldr  r3, [r3, r1]
  8000e22:	585b      	ldr	r3, [r3, r1]
-  str  r3, [r0, r1]
  8000e24:	5043      	str	r3, [r0, r1]
-  adds  r1, r1, #4
  8000e26:	3104      	adds	r1, #4
 
 08000e28 <LoopCopyDataInit>:
-    
-LoopCopyDataInit:
-  ldr  r0, =_sdata
  8000e28:	480b      	ldr	r0, [pc, #44]	; (8000e58 <LoopFillZerobss+0x1c>)
-  ldr  r3, =_edata
  8000e2a:	4b0c      	ldr	r3, [pc, #48]	; (8000e5c <LoopFillZerobss+0x20>)
-  adds  r2, r0, r1
  8000e2c:	1842      	adds	r2, r0, r1
-  cmp  r2, r3
  8000e2e:	429a      	cmp	r2, r3
-  bcc  CopyDataInit
  8000e30:	d3f6      	bcc.n	8000e20 <CopyDataInit>
-  ldr  r2, =_sbss
  8000e32:	4a0b      	ldr	r2, [pc, #44]	; (8000e60 <LoopFillZerobss+0x24>)
-  b  LoopFillZerobss
  8000e34:	e002      	b.n	8000e3c <LoopFillZerobss>
 
 08000e36 <FillZerobss>:
-/* Zero fill the bss segment. */  
-FillZerobss:
-  movs  r3, #0
  8000e36:	2300      	movs	r3, #0
-  str  r3, [r2], #4
  8000e38:	f842 3b04 	str.w	r3, [r2], #4
 
 08000e3c <LoopFillZerobss>:
-    
-LoopFillZerobss:
-  ldr  r3, = _ebss
  8000e3c:	4b09      	ldr	r3, [pc, #36]	; (8000e64 <LoopFillZerobss+0x28>)
-  cmp  r2, r3
  8000e3e:	429a      	cmp	r2, r3
-  bcc  FillZerobss
  8000e40:	d3f9      	bcc.n	8000e36 <FillZerobss>
-
-/* Call the clock system intitialization function.*/
-  bl  SystemInit   
  8000e42:	f7ff ffd3 	bl	8000dec <SystemInit>
-/* Call static constructors */
-    bl __libc_init_array
  8000e46:	f004 fd07 	bl	8005858 <__libc_init_array>
-/* Call the application's entry point.*/
-  bl  main
  8000e4a:	f7ff fba1 	bl	8000590 <main>
-  bx  lr    
  8000e4e:	4770      	bx	lr
-  ldr   sp, =_estack    		 /* set stack pointer */
  8000e50:	20020000 	.word	0x20020000
-  ldr  r3, =_sidata
  8000e54:	080061d4 	.word	0x080061d4
-  ldr  r0, =_sdata
  8000e58:	20000000 	.word	0x20000000
-  ldr  r3, =_edata
  8000e5c:	20000104 	.word	0x20000104
-  ldr  r2, =_sbss
  8000e60:	20000104 	.word	0x20000104
-  ldr  r3, = _ebss
  8000e64:	20012f80 	.word	0x20012f80
 
 08000e68 <ADC_IRQHandler>:
- * @retval None       
-*/
-    .section  .text.Default_Handler,"ax",%progbits
-Default_Handler:
-Infinite_Loop:
-  b  Infinite_Loop
  8000e68:	e7fe      	b.n	8000e68 <ADC_IRQHandler>
 	...
 

@@ -42,12 +42,11 @@
  *----------------------------------------------------------*/
 
 /* Ensure stdint is only used by the compiler, and not the assembler. */
-#ifdef __ICCARM__
+#ifdef __GNUC__
 	#include <stdint.h>
 	extern uint32_t SystemCoreClock;
 #endif
 
-extern uint32_t SystemCoreClock;
 #define configUSE_PREEMPTION			1
 #define configUSE_IDLE_HOOK				0	//changed, was 1, this function not yet implemented by developer therefore error: Function definition not found
 #define configUSE_TICK_HOOK				0	//changed, was 1
