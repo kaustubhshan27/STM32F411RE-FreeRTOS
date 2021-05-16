@@ -89,7 +89,7 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -201,7 +201,7 @@ void vTask2_handler(void) {
 		if(button_status == NOT_PRESSED)
 		{
 			toggle_LED();
-			vTaskDelay(700); //500ms period for LED toggling
+			vTaskDelay(500); //500ms period for LED toggling
 		}
 		else if(button_status == PRESSED)
 		{

@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00020010  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00011f60  00000000  00000000  00020040  2**0
+ 12 .debug_info   00011f5e  00000000  00000000  00020040  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 00002811  00000000  00000000  00031fa0  2**0
+ 13 .debug_abbrev 00002820  00000000  00000000  00031f9e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00001020  00000000  00000000  000347b8  2**3
+ 14 .debug_aranges 00001020  00000000  00000000  000347c0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00000ef8  00000000  00000000  000357d8  2**3
+ 15 .debug_ranges 00000ef8  00000000  00000000  000357e0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  00017273  00000000  00000000  000366d0  2**0
+ 16 .debug_macro  00017273  00000000  00000000  000366d8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0000c27f  00000000  00000000  0004d943  2**0
+ 17 .debug_line   0000c3e4  00000000  00000000  0004d94b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00092b4e  00000000  00000000  00059bc2  2**0
+ 18 .debug_str    00092bae  00000000  00000000  00059d2f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  000ec710  2**0
+ 19 .comment      0000007b  00000000  00000000  000ec8dd  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004340  00000000  00000000  000ec78c  2**2
+ 20 .debug_frame  00004340  00000000  00000000  000ec958  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -387,7 +387,7 @@ int main(void)
   MX_USART2_UART_Init();
  80004f2:	f000 f871 	bl	80005d8 <MX_USART2_UART_Init>
   /* USER CODE BEGIN 2 */
-  //xTaskCreate((pdTASK_CODE)vButtonTask_handler, "Button Task", configMINIMAL_STACK_SIZE, NULL, 1, &xTaskHandle_button);
+
   xTaskCreate((pdTASK_CODE)vLEDTask_handler, "LED Task", configMINIMAL_STACK_SIZE, NULL, 1, &xTaskHandle_led);
  80004f6:	4b06      	ldr	r3, [pc, #24]	; (8000510 <main+0x30>)
  80004f8:	9301      	str	r3, [sp, #4]
@@ -707,9 +707,9 @@ static void MX_GPIO_Init(void)
  80006e0:	40020800 	.word	0x40020800
 
 080006e4 <vLEDTask_handler>:
-	}
+	HAL_UART_Transmit(&huart2, (uint8_t*) msg, (uint16_t) strlen(msg),
+			HAL_MAX_DELAY);
 }
-*/
 
 void vLEDTask_handler(void)
 {
@@ -1288,99 +1288,45 @@ void SystemInit(void)
  8000988:	e000ed00 	.word	0xe000ed00
 
 0800098c <Reset_Handler>:
-
-    .section  .text.Reset_Handler
-  .weak  Reset_Handler
-  .type  Reset_Handler, %function
-Reset_Handler:  
-  ldr   sp, =_estack    		 /* set stack pointer */
  800098c:	f8df d034 	ldr.w	sp, [pc, #52]	; 80009c4 <LoopFillZerobss+0x14>
-
-/* Copy the data segment initializers from flash to SRAM */  
-  movs  r1, #0
  8000990:	2100      	movs	r1, #0
-  b  LoopCopyDataInit
  8000992:	e003      	b.n	800099c <LoopCopyDataInit>
 
 08000994 <CopyDataInit>:
-
-CopyDataInit:
-  ldr  r3, =_sidata
  8000994:	4b0c      	ldr	r3, [pc, #48]	; (80009c8 <LoopFillZerobss+0x18>)
-  ldr  r3, [r3, r1]
  8000996:	585b      	ldr	r3, [r3, r1]
-  str  r3, [r0, r1]
  8000998:	5043      	str	r3, [r0, r1]
-  adds  r1, r1, #4
  800099a:	3104      	adds	r1, #4
 
 0800099c <LoopCopyDataInit>:
-    
-LoopCopyDataInit:
-  ldr  r0, =_sdata
  800099c:	480b      	ldr	r0, [pc, #44]	; (80009cc <LoopFillZerobss+0x1c>)
-  ldr  r3, =_edata
  800099e:	4b0c      	ldr	r3, [pc, #48]	; (80009d0 <LoopFillZerobss+0x20>)
-  adds  r2, r0, r1
  80009a0:	1842      	adds	r2, r0, r1
-  cmp  r2, r3
  80009a2:	429a      	cmp	r2, r3
-  bcc  CopyDataInit
  80009a4:	d3f6      	bcc.n	8000994 <CopyDataInit>
-  ldr  r2, =_sbss
  80009a6:	4a0b      	ldr	r2, [pc, #44]	; (80009d4 <LoopFillZerobss+0x24>)
-  b  LoopFillZerobss
  80009a8:	e002      	b.n	80009b0 <LoopFillZerobss>
 
 080009aa <FillZerobss>:
-/* Zero fill the bss segment. */  
-FillZerobss:
-  movs  r3, #0
  80009aa:	2300      	movs	r3, #0
-  str  r3, [r2], #4
  80009ac:	f842 3b04 	str.w	r3, [r2], #4
 
 080009b0 <LoopFillZerobss>:
-    
-LoopFillZerobss:
-  ldr  r3, = _ebss
  80009b0:	4b09      	ldr	r3, [pc, #36]	; (80009d8 <LoopFillZerobss+0x28>)
-  cmp  r2, r3
  80009b2:	429a      	cmp	r2, r3
-  bcc  FillZerobss
  80009b4:	d3f9      	bcc.n	80009aa <FillZerobss>
-
-/* Call the clock system intitialization function.*/
-  bl  SystemInit   
  80009b6:	f7ff ffd3 	bl	8000960 <SystemInit>
-/* Call static constructors */
-    bl __libc_init_array
  80009ba:	f003 ffcf 	bl	800495c <__libc_init_array>
-/* Call the application's entry point.*/
-  bl  main
  80009be:	f7ff fd8f 	bl	80004e0 <main>
-  bx  lr    
  80009c2:	4770      	bx	lr
-  ldr   sp, =_estack    		 /* set stack pointer */
  80009c4:	20020000 	.word	0x20020000
-  ldr  r3, =_sidata
  80009c8:	08004a30 	.word	0x08004a30
-  ldr  r0, =_sdata
  80009cc:	20000000 	.word	0x20000000
-  ldr  r3, =_edata
  80009d0:	20000010 	.word	0x20000010
-  ldr  r2, =_sbss
  80009d4:	20000010 	.word	0x20000010
-  ldr  r3, = _ebss
  80009d8:	20012e58 	.word	0x20012e58
 
 080009dc <ADC_IRQHandler>:
- * @retval None       
-*/
-    .section  .text.Default_Handler,"ax",%progbits
-Default_Handler:
-Infinite_Loop:
-  b  Infinite_Loop
  80009dc:	e7fe      	b.n	80009dc <ADC_IRQHandler>
 	...
 

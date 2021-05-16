@@ -100,7 +100,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  //xTaskCreate((pdTASK_CODE)vButtonTask_handler, "Button Task", configMINIMAL_STACK_SIZE, NULL, 1, &xTaskHandle_button);
+
   xTaskCreate((pdTASK_CODE)vLEDTask_handler, "LED Task", configMINIMAL_STACK_SIZE, NULL, 1, &xTaskHandle_led);
 
   vTaskStartScheduler();
@@ -229,16 +229,6 @@ void printmsg(const char *msg) {
 	HAL_UART_Transmit(&huart2, (uint8_t*) msg, (uint16_t) strlen(msg),
 			HAL_MAX_DELAY);
 }
-
-/*
-void vButtonTask_handler(void)
-{
-	while(1)
-	{
-		button_status = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) ? NOT_PRESSED:PRESSED;
-	}
-}
-*/
 
 void vLEDTask_handler(void)
 {
