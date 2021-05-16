@@ -43,8 +43,8 @@ STM32_FreeRTOS_Tasks_Sync.bin \
 all: STM32_FreeRTOS_Tasks_Sync.elf secondary-outputs
 
 # Tool invocations
-STM32_FreeRTOS_Tasks_Sync.elf: $(OBJS) $(USER_OBJS) /home/kaustubh/STM32CubeIDE/workspace_1.3.0/STM32_FreeRTOS_Tasks_Sync/STM32F411RETX_FLASH.ld
-	arm-none-eabi-gcc -o "STM32_FreeRTOS_Tasks_Sync.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/kaustubh/STM32CubeIDE/workspace_1.3.0/STM32_FreeRTOS_Tasks_Sync/STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_FreeRTOS_Tasks_Sync.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32_FreeRTOS_Tasks_Sync.elf: $(OBJS) $(USER_OBJS) /home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_Tasks_Sync/STM32F411RETX_FLASH.ld
+	arm-none-eabi-gcc -o "STM32_FreeRTOS_Tasks_Sync.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_Tasks_Sync/STM32F411RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_FreeRTOS_Tasks_Sync.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

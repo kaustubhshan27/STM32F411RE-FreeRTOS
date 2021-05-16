@@ -9,18 +9,18 @@ CDefines=USE_HAL_DRIVER;STM32F411xE;USE_HAL_DRIVER;USE_HAL_DRIVER;
 [PreviousGenFiles]
 AdvancedFolderStructure=true
 HeaderFileListSize=3
-HeaderFiles#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Inc/stm32f4xx_it.h
-HeaderFiles#1=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Inc/stm32f4xx_hal_conf.h
-HeaderFiles#2=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Inc/main.h
+HeaderFiles#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Inc/stm32f4xx_it.h
+HeaderFiles#1=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Inc/stm32f4xx_hal_conf.h
+HeaderFiles#2=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Inc/main.h
 HeaderFolderListSize=1
-HeaderPath#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Inc
+HeaderPath#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Inc
 HeaderFiles=;
 SourceFileListSize=4
-SourceFiles#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Src/stm32f4xx_it.c
-SourceFiles#1=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Src/stm32f4xx_hal_msp.c
-SourceFiles#2=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Src/stm32f4xx_hal_timebase_tim.c
-SourceFiles#3=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Src/main.c
+SourceFiles#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Src/stm32f4xx_it.c
+SourceFiles#1=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Src/stm32f4xx_hal_msp.c
+SourceFiles#2=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Src/stm32f4xx_hal_timebase_tim.c
+SourceFiles#3=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Src/main.c
 SourceFolderListSize=1
-SourcePath#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32_FreeRTOS_TaskNotify/Core/Src
+SourcePath#0=/home/kaustubh/STM32CubeIDE/RTOS_workspace/STM32F4-FreeRTOS/STM32_FreeRTOS_TaskNotify/Core/Src
 SourceFiles=;
 

@@ -101,13 +101,13 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); //4 bits for priority, 0 bits for subpriority
-	xTaskCreate((pdTASK_CODE) vButtonTask_handler, "Button Task", 500, NULL, 1,
+
+  xTaskCreate((pdTASK_CODE) vButtonTask_handler, "Button Task", 1000, NULL, 1,
 			&xTaskHandle_button);
-	xTaskCreate((pdTASK_CODE) vLEDTask_handler, "LED Task", 500, NULL, 1,
+  xTaskCreate((pdTASK_CODE) vLEDTask_handler, "LED Task", 1000, NULL, 1,
 			&xTaskHandle_led);
 
-	vTaskStartScheduler();
+  vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -221,7 +221,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 6, 0);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 10, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
@@ -262,7 +262,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin == GPIO_PIN_13)
 	{
 		button_status = PRESSED;
-		//rtos_delay(100); //100ms delay - for button debounce
+		rtos_delay(100); //100ms delay - for button debounce
 	}
 }
 
